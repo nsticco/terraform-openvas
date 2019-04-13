@@ -14,7 +14,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
-resource "aws_instance" "openvas-vm-us-west-2a" {
+resource "aws_instance" "openvas-us-west-2a" {
   ami           = "${data.aws_ami.ubuntu.id}"
   instance_type = "${var.instance-type}"
   subnet_id     = "${aws_subnet.openvas-sn-us-west-2a.id}"
