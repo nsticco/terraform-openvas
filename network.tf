@@ -1,47 +1,47 @@
-resource "aws_vpc" "wazuh-vpc" {
+resource "aws_vpc" "openvas-vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   tags = {
-    Name = "wazuh-vpc"
+    Name = "openvas-vpc"
   }
 }
 
-resource "aws_internet_gateway" "wazuh-igw" {
-  vpc_id = "${aws_vpc.wazuh-vpc.id}"
+resource "aws_internet_gateway" "openvas-igw" {
+  vpc_id = "${aws_vpc.openvas-vpc.id}"
 
   tags = {
-    Name = "wazuh-igw"
+    Name = "openvas-igw"
   }
 }
 
-resource "aws_default_route_table" "wazuh-rt-public" {
-  default_route_table_id = "${aws_vpc.wazuh-vpc.default_route_table_id}"
+resource "aws_default_route_table" "openvas-rt-public" {
+  default_route_table_id = "${aws_vpc.openvas-vpc.default_route_table_id}"
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.wazuh-igw.id}"
+    gateway_id = "${aws_internet_gateway.openvas-igw.id}"
   }
 
   tags = {
-    Name = "wazuh-rt-public"
+    Name = "openvas-rt-public"
   }
 }
 
-resource "aws_subnet" "wazuh-sn-us-west-2a" {
-  cidr_block              = "${cidrsubnet(aws_vpc.wazuh-vpc.cidr_block, 8, 1)}"
-  vpc_id                  = "${aws_vpc.wazuh-vpc.id}"
+resource "aws_subnet" "openvas-sn-us-west-2a" {
+  cidr_block              = "${cidrsubnet(aws_vpc.openvas-vpc.cidr_block, 8, 1)}"
+  vpc_id                  = "${aws_vpc.openvas-vpc.id}"
   availability_zone       = "us-west-2a"
   map_public_ip_on_launch = true
 
   tags {
-    Name = "wazuh-sn-us-west-2a"
+    Name = "openvas-sn-us-west-2a"
   }
 }
 
-resource "aws_default_security_group" "wazuh-security-group" {
-  vpc_id = "${aws_vpc.wazuh-vpc.id}"
+resource "aws_default_security_group" "openvas-security-group" {
+  vpc_id = "${aws_vpc.openvas-vpc.id}"
 
   ingress {
     from_port   = 22
@@ -72,7 +72,7 @@ resource "aws_default_security_group" "wazuh-security-group" {
     to_port     = 514
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Wazuh collected events from syslog"
+    description = "openvas collected events from syslog"
   }
 
   ingress {
@@ -80,7 +80,7 @@ resource "aws_default_security_group" "wazuh-security-group" {
     to_port     = 1514
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Wazuh agent event collection"
+    description = "openvas agent event collection"
   }
 
   ingress {
@@ -88,7 +88,7 @@ resource "aws_default_security_group" "wazuh-security-group" {
     to_port     = 1515
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Wazuh agent registration"
+    description = "openvas agent registration"
   }
 
   ingress {
@@ -96,7 +96,7 @@ resource "aws_default_security_group" "wazuh-security-group" {
     to_port     = 1516
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Wazuh cluster communications"
+    description = "openvas cluster communications"
   }
 
   ingress {
@@ -136,7 +136,7 @@ resource "aws_default_security_group" "wazuh-security-group" {
     to_port     = 55000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Wazuh API HTTP requests"
+    description = "openvas API HTTP requests"
   }
 
   egress {
@@ -147,6 +147,6 @@ resource "aws_default_security_group" "wazuh-security-group" {
   }
 
   tags = {
-    Name = "wazuh-security-group"
+    Name = "openvas-security-group"
   }
 }

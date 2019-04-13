@@ -1,3 +1,3 @@
-# Terraform Wazuh WIP
+# Terraform openvas WIP
 
-Terraform Wazuh WIP
+Terraform openvas WIP
