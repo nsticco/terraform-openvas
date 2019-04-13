@@ -26,12 +26,12 @@ resource "aws_instance" "openvas-us-west-2a" {
   }
 
   tags {
-    Name = "openvas-vm-us-west-2a"
+    Name = "openvas-us-west-2a"
   }
 }
 
 resource "aws_eip" "openvas-eip" {
-  instance   = "${aws_instance.openvas-vm-us-west-2a.id}"
+  instance   = "${aws_instance.openvas-us-west-2a.id}"
   vpc        = true
   depends_on = ["aws_internet_gateway.openvas-igw"]
 
